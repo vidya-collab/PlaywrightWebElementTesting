@@ -50,7 +50,8 @@ test.describe('Web Elements Practice The Internet (herokuapp)', () => {
     await expect(boxes.nth(0)).toBeChecked();
     await expect(boxes.nth(1)).not.toBeChecked();
 
-/**** 
+  
+
     // ---------- 5) HOVER ----------
     await page.goto('/hovers');
     // Hover first avatar and assert caption appears
@@ -81,12 +82,17 @@ test.describe('Web Elements Practice The Internet (herokuapp)', () => {
     await page.goto('/download');
     // Click the first file link and capture download
     const firstFile = page.locator('a[href^="/download/"]').first();
+    
     const download = await Promise.all([
       page.waitForEvent('download'),
       firstFile.click()
     ]).then(([d]) => d);
     const savedPath = await download.path();
-    expect(savedPath).toBeTruthy(); // Download completed locally (in temp)
+    expect(savedPath).toBeTruthy(); //Checks that savedPath is not null (means the file actually downloaded).
+    
+    // Download completed locally (in temp) ,
+    // path() gives the path to the downloaded file in Playwright's temp folder
+    
     // Optionally persist to project folder:
     await download.saveAs(path.resolve('tests/data/downloaded-file'));
 
@@ -115,8 +121,18 @@ test.describe('Web Elements Practice The Internet (herokuapp)', () => {
       await dialog.accept('Playwright Rocks!');
     });
     await page.click('text=Click for JS Prompt');
-    await expect(page.locator('#result')).toContainText('Playwright Rocks!');
+    await expect(page.locator('#result')).toContainText('Playwright Rocks!'); 
 
+    //page.once('dialog', ...) → Captures the next dialog only once (avoids multiple handlers).
+
+    //dialog.type() → Distinguishes between alert, confirm, and prompt.
+
+    //accept() / dismiss() → Simulate clicking OK or Cancel.
+
+    //Assertions (expect) → Verify page shows correct result text after handling dialogs.
+
+    
+    
     // ---------- 10) EXTRA: Press keys on a text input ----------
     await page.goto('/inputs');
     const numberInput = page.locator('input[type="number"]');
@@ -127,7 +143,7 @@ test.describe('Web Elements Practice The Internet (herokuapp)', () => {
     await page.keyboard.type('456');
     await expect(numberInput).toHaveValue('456');
 
-    // Done!**/
+    // ---------- END OF TEST ----------
   
 })
 });
